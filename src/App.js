@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+
+import { useEffect, useState } from 'react';
 import './App.css';
+import ArticleProducts from './components/ArticleProduct';
 
 function App() {
+
+  const [products, setProduct] = useState([]);
+  const fetchProducts = () => {
+    fetch("https://api.escuelajs.co/api/v1/products")
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      setProduct(data);
+    })
+  }
+  useEffect(() =>{
+    fetchProducts();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <table className='table'>
+       <ArticleProducts products={products}/>
+     
+    </table>
   );
 }
 
